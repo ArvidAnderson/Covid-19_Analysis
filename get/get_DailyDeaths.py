@@ -10,5 +10,5 @@ def get_DeathByDate(date_input):
     day = df[df['Date'] == date_input]
     return (day.values[0][1])
 
-Example
+#Example
 #print(get_DeathByDate('2020-03-20'))
