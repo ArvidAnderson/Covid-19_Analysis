@@ -4,11 +4,24 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from get import *
-print(TotalCasesByAgeGroup('10-19'))
+import plotly.express as px
 #My own functions needed to display data.
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-# the style arguments for the sidebar. We use position:fixed and a fixed width
+#Graphs
+
+#Total Cases Fig
+AgeTotalCasesFig = px.bar(dfAge, x='Age_Group', y='Total_Cases',
+      labels={'Age_Group': 'Age Group', 'Total_Cases': 'Total Cases'})
+#Total ICU Fig
+AgeTotalICUFig = px.bar(dfAge, x='Age_Group', y='Total_ICU_Admissions',
+      labels={'Age_Group': 'Age Group', 'Total_ICU_Admissions': 'Total ICU Admissions'})
+
+#Total Deaths FIG
+AgeTotalDeathsFig = px.bar(dfAge, x='Age_Group', y='Total_Deaths',
+      labels={'Age_Group': 'Age Group', 'Total_Deaths': 'Total Deaths'})
+
+# Used for styling the sidebar
 SIDEBAR_STYLE = {
     "position": "fixed",
     "top": 0,
@@ -19,20 +32,20 @@ SIDEBAR_STYLE = {
     "background-color": "#f8f9fa",
 }
 
-# the styles for the main content position it to the right of the sidebar and
-# add some padding.
+#Positioning the main content and adding padding
 CONTENT_STYLE = {
     "margin-left": "18rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
 }
 
+#Sidebar content
 sidebar = html.Div(
     [
         html.H2("Covid-19 Analysis", className="display-4"),
         html.Hr(),
         html.P(
-            "Dashboard for easily viewing the statistics of the current situation", className="lead"
+            "Arvid Anderson TE19D", className="lead"
         ),
         dbc.Nav(
             [
@@ -47,14 +60,23 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
+#Creates content div
 content = html.Div(id="page-content", style=CONTENT_STYLE)
 
+#Setting the app layout, on url change content in the middle changes
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
+        main = html.Div(
+            [
+                html.H1('/ Page')
+            ]
+        )
+        return main
+    elif pathname == "/age":
         cards = dbc.CardGroup(
             [
                 dbc.Card(
@@ -117,15 +139,12 @@ def render_page_content(pathname):
                     dbc.CardBody(
                         [
                             html.H5("Age 40-49", className="card-title"),
-                            html.P(
-                                "This card has some text content, which is longer "
-                                "than both of the other two cards, in order to "
-                                "demonstrate the equal height property of cards in a "
-                                "card group.",
-                                className="card-text",
-                            ),
-                            dbc.Button(
-                                "Click here", color="danger", className="mt-auto"
+                            dbc.ListGroup(
+                                [
+                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('40-49')}"),
+                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('40-49')}"),
+                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('40-49')}"),
+                                ]
                             ),
                         ]
                     )
@@ -134,15 +153,12 @@ def render_page_content(pathname):
                     dbc.CardBody(
                         [
                             html.H5("Age 50-59", className="card-title"),
-                            html.P(
-                                "This card has some text content, which is longer "
-                                "than both of the other two cards, in order to "
-                                "demonstrate the equal height property of cards in a "
-                                "card group.",
-                                className="card-text",
-                            ),
-                            dbc.Button(
-                                "Click here", color="danger", className="mt-auto"
+                            dbc.ListGroup(
+                                [
+                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('50-59')}"),
+                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('50-59')}"),
+                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('50-59')}"),
+                                ]
                             ),
                         ]
                     )
@@ -151,15 +167,12 @@ def render_page_content(pathname):
                     dbc.CardBody(
                         [
                             html.H5("Age 60-69", className="card-title"),
-                            html.P(
-                                "This card has some text content, which is longer "
-                                "than both of the other two cards, in order to "
-                                "demonstrate the equal height property of cards in a "
-                                "card group.",
-                                className="card-text",
-                            ),
-                            dbc.Button(
-                                "Click here", color="danger", className="mt-auto"
+                            dbc.ListGroup(
+                                [
+                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('60-69')}"),
+                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('60-69')}"),
+                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('60-69')}"),
+                                ]
                             ),
                         ]
                     )
@@ -168,15 +181,12 @@ def render_page_content(pathname):
                     dbc.CardBody(
                         [
                             html.H5("Age 70-79", className="card-title"),
-                            html.P(
-                                "This card has some text content, which is longer "
-                                "than both of the other two cards, in order to "
-                                "demonstrate the equal height property of cards in a "
-                                "card group.",
-                                className="card-text",
-                            ),
-                            dbc.Button(
-                                "Click here", color="danger", className="mt-auto"
+                            dbc.ListGroup(
+                                [
+                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('70-79')}"),
+                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('70-79')}"),
+                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('70-79')}"),
+                                ]
                             ),
                         ]
                     )
@@ -185,15 +195,12 @@ def render_page_content(pathname):
                     dbc.CardBody(
                         [
                             html.H5("Age 80-89", className="card-title"),
-                            html.P(
-                                "This card has some text content, which is longer "
-                                "than both of the other two cards, in order to "
-                                "demonstrate the equal height property of cards in a "
-                                "card group.",
-                                className="card-text",
-                            ),
-                            dbc.Button(
-                                "Click here", color="danger", className="mt-auto"
+                            dbc.ListGroup(
+                                [
+                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('80-89')}"),
+                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('80-89')}"),
+                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('80-89')}"),
+                                ]
                             ),
                         ]
                     )
@@ -202,22 +209,59 @@ def render_page_content(pathname):
                     dbc.CardBody(
                         [
                             html.H5("Age 90+", className="card-title"),
-                            html.P(
-                                "This card has some text content, which is longer "
-                                "than both of the other two cards, in order to "
-                                "demonstrate the equal height property of cards in a "
-                                "card group.",
-                                className="card-text",
-                            ),
-                            dbc.Button(
-                                "Click here", color="danger", className="mt-auto"
+                            dbc.ListGroup(
+                                [
+                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('90+')}"),
+                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('90+')}"),
+                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('90+')}"),
+                                ]
                             ),
                         ]
                     )
                 ),
             ]
         )
-        return cards
+        TABS_STYLE = {
+            "margin-top": "15px",
+        }
+        tab1_content = dbc.Card(
+            dbc.CardBody(
+                [
+                    dcc.Graph(figure=AgeTotalCasesFig),
+                ]
+            ),
+            className="mt-3",
+        )
+
+        tab2_content = dbc.Card(
+            dbc.CardBody(
+                [
+                    dcc.Graph(figure=AgeTotalICUFig),
+                ]
+            ),
+            className="mt-3",
+        )
+        tab3_content = dbc.Card(
+            dbc.CardBody(
+                [
+                    dcc.Graph(figure=AgeTotalDeathsFig),
+                ]
+            ),
+            className="mt-3",
+        )
+
+
+        tabs = dbc.Tabs(
+            [
+                dbc.Tab(label="Graphs", disabled="true"),
+                dbc.Tab(tab1_content, label="Total Cases",),
+                dbc.Tab(tab2_content, label="ICU"),
+                dbc.Tab(tab3_content, label="Deaths"),
+            ],
+            active_tab="",
+            style = TABS_STYLE,
+        )
+        return cards, tabs
     elif pathname == "/page-1":
         return html.P("This is the content of page 1. Yay!")
     elif pathname == "/page-2":
@@ -230,6 +274,7 @@ def render_page_content(pathname):
             html.P(f"The pathname {pathname} was not recognised..."),
         ]
     )
+
 
 
 if __name__ == "__main__":
