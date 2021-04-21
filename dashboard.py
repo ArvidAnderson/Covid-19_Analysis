@@ -263,9 +263,9 @@ def render_page_content(pathname):
         )
         return cards, tabs
     elif pathname == "/page-1":
-        return html.P("This is the content of page 1. Yay!")
+        return html.P("No content Page 1")
     elif pathname == "/page-2":
-        return html.P("Oh cool, this is page 2!")
+        return html.P("No Content Page 2")
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
