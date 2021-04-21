@@ -29,3 +29,8 @@ My overall plan for this project is to first get plotly dash up and running and 
   * Use a Choropleth map over the swedish counties (geojson) map.
   
   * Make it interactive, let the user choose what to visualize, maybe (buttons, dropdowns, lists) ?
+
+
+* Notes:
+
+  * Needed to edit the geojson file to correct names of the counties to match with my Reginal_Totals csv file

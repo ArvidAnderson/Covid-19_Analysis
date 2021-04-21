@@ -1,25 +1,14 @@
+#Imports
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-from get import *
-import plotly.express as px
-#My own functions needed to display data.
+import plotly.express as px # remove ?
+import json # remove ?
+from get import * #My own library for grabbing data from all the files.
+
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-
-#Graphs
-
-#Total Cases Fig
-AgeTotalCasesFig = px.bar(dfAge, x='Age_Group', y='Total_Cases',
-      labels={'Age_Group': 'Age Group', 'Total_Cases': 'Total Cases'})
-#Total ICU Fig
-AgeTotalICUFig = px.bar(dfAge, x='Age_Group', y='Total_ICU_Admissions',
-      labels={'Age_Group': 'Age Group', 'Total_ICU_Admissions': 'Total ICU Admissions'})
-
-#Total Deaths FIG
-AgeTotalDeathsFig = px.bar(dfAge, x='Age_Group', y='Total_Deaths',
-      labels={'Age_Group': 'Age Group', 'Total_Deaths': 'Total Deaths'})
 
 # Used for styling the sidebar
 SIDEBAR_STYLE = {
@@ -49,7 +38,8 @@ sidebar = html.Div(
         ),
         dbc.Nav(
             [
-                dbc.NavLink("Home", href="/", active="exact"),
+                dbc.NavLink("Regional Map", href="/map", active="exact"),
+                dbc.NavLink("Age Groups", href="/age", active="exact"),
                 dbc.NavLink("Page 1", href="/page-1", active="exact"),
                 dbc.NavLink("Page 2", href="/page-2", active="exact"),
             ],
@@ -70,12 +60,22 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
-        main = html.Div(
+        HomePage = html.Div([
+            html.H1('DANK')
+        ])
+        return HomePage 
+    elif pathname == "/map":
+        REGIONALMAP_STYLE = {
+            "width": "100%",
+            "height": "100%",
+        }
+        RegionalMapLayout = html.Div(
             [
-                html.H1('/ Page')
-            ]
+                dcc.Graph(figure=RegionalMap),
+            ],
+            style=REGIONALMAP_STYLE
         )
-        return main
+        return RegionalMapLayout
     elif pathname == "/age":
         cards = dbc.CardGroup(
             [
