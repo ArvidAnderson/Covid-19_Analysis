@@ -18,10 +18,9 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "16rem",
     "padding": "2rem 1rem",
-    "background-color": "#1F273C",
+    "background-color": "#292E3B",
     "color": "white",
 }
-
 #Positioning the main content and adding padding
 CONTENT_STYLE = {
     "margin-left": "18rem",
@@ -29,35 +28,13 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
-NAVBAR_STYLE = {
-    "color": "white",
-    "background-color": "#1F273C !important",
-}
-navbar = dbc.Navbar(
-    [
-        html.A(
-            # Use row and col to control vertical alignment of logo / brand
-            dbc.Row(
-                [
-                    dbc.Col(dbc.NavbarBrand("Covid-19 Visualizer", style=NAVBAR_STYLE, className="p-2 ml-2")),
-                ],
-                align="center",
-                no_gutters=True,
-            ),
-            href="https://plot.ly",
-        ),
-        dbc.NavbarToggler(id="navbar-toggler"),
-    ],
-    style=NAVBAR_STYLE,
-    color="#1F273C"
-)
-
 #Sidebar content
 sidebar = html.Div(
     [
+        html.H2("Covid-19", className="display-4"),
         html.Hr(),
         html.P(
-            "Arvid Anderson TE19D", className="lead"
+            "Visualizing Covid-19 data for you", className="lead"
         ),
         dbc.Nav(
             [
@@ -77,7 +54,7 @@ sidebar = html.Div(
 content = html.Div(id="page-content", style=CONTENT_STYLE)
 
 #Setting the app layout, on url change content in the middle changes
-app.layout = html.Div([dcc.Location(id="url"), sidebar, navbar, content])
+app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
