@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-      <div class="flex-col bg-theme">
+      <div class="flex-col bg-theme pl-2 pr-2">
           <div class="flex h-screen items-center text-white">
             <ul>
                 <li class="flex text-2xl mb-3"

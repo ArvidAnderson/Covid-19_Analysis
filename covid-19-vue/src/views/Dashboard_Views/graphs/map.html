@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+<body>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+</body>
+</html>
+<script>
+    var data = geojson("./swedish_counties.geojson")
+    console.log(data)
+
+    var layout = {mapbox: {center: {lon: -74, lat: 43}, zoom: 3.5},
+                width: 600, height:400};
+
+    var config = {mapboxAccessToken: "your access token"};
+
+    Plotly.newPlot('myDiv', data, layout, config);
+</script>
