@@ -1,5 +1,4 @@
 # Arvid Anderson TE19D, https://github.com/arvidanderson
+exec(open('dashboard.py').read())
 
-#Imports
-from get.get_DataFiles import * # Importing my file library to avoid bloat in this file
 

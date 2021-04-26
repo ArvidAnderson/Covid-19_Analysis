@@ -53,12 +53,11 @@ for feature in SwedishCounties['features']:
 dfChMap = pd.read_csv(RegionalTotalsData)
 dfChMap['id'] = dfChMap['Region'].apply(lambda x: SwedishCountiesMap[x])
 
-RegionalMap = px.choropleth(dfChMap, locations='id', hover_name='Region', scope='europe', hover_data=['Total_ICU_Admissions', 'Cases_per_100k_Pop', 'Total_Deaths'], geojson=SwedishCounties,
+RegionalMapFig = px.choropleth(dfChMap, locations='id', hover_name='Region', scope='europe', hover_data=['Total_ICU_Admissions', 'Cases_per_100k_Pop', 'Total_Deaths'], geojson=SwedishCounties,
                         color='Total_Cases', labels={
                          'Total_Cases': 'Total Cases', 'id': 'Identifier ID',
                           'Total_ICU_Admissions': 'Total ICU Admissions', 'Total_Deaths': 'Total Deaths', 'Cases_per_100k_Pop': 'Cases per 100k pop'
                         })
-RegionalMap['layout'].update(width=1920, height=1080)
-RegionalMap.update_geos(fitbounds='locations', visible=False)
+RegionalMapFig.update_geos(fitbounds='locations', visible=False)
 
 ################################################################

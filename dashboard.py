@@ -18,7 +18,8 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "16rem",
     "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    "background-color": "#1F273C",
+    "color": "white",
 }
 
 #Positioning the main content and adding padding
@@ -28,10 +29,32 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
+NAVBAR_STYLE = {
+    "color": "white",
+    "background-color": "#1F273C !important",
+}
+navbar = dbc.Navbar(
+    [
+        html.A(
+            # Use row and col to control vertical alignment of logo / brand
+            dbc.Row(
+                [
+                    dbc.Col(dbc.NavbarBrand("Covid-19 Visualizer", style=NAVBAR_STYLE, className="p-2 ml-2")),
+                ],
+                align="center",
+                no_gutters=True,
+            ),
+            href="https://plot.ly",
+        ),
+        dbc.NavbarToggler(id="navbar-toggler"),
+    ],
+    style=NAVBAR_STYLE,
+    color="#1F273C"
+)
+
 #Sidebar content
 sidebar = html.Div(
     [
-        html.H2("Covid-19 Analysis", className="display-4"),
         html.Hr(),
         html.P(
             "Arvid Anderson TE19D", className="lead"
@@ -54,7 +77,7 @@ sidebar = html.Div(
 content = html.Div(id="page-content", style=CONTENT_STYLE)
 
 #Setting the app layout, on url change content in the middle changes
-app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
+app.layout = html.Div([dcc.Location(id="url"), sidebar, navbar, content])
 
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
@@ -66,158 +89,194 @@ def render_page_content(pathname):
         return HomePage 
     elif pathname == "/map":
         REGIONALMAP_STYLE = {
-            "width": "100%",
-            "height": "100%",
+            "display": "flex",
+            "justify-content": "center",
+        }
+        REGIONALMAPFIG_STYLE = {
+            "width": "90vh",
+            "height": "90vh",
         }
         RegionalMapLayout = html.Div(
             [
-                dcc.Graph(figure=RegionalMap),
+                dcc.Graph(figure=RegionalMapFig, style=REGIONALMAPFIG_STYLE),
             ],
             style=REGIONALMAP_STYLE
         )
         return RegionalMapLayout
     elif pathname == "/age":
-        cards = dbc.CardGroup(
+        row = html.Div(
             [
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 0-9", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('0-9')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('0-9')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('0-9')}"),
-                                ]
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 0-9", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('0-9')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('0-9')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('0-9')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
                             ),
-                        ]
-                    )
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 10-19", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('10-19')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('10-19')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('10-19')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
+                            ),
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 20-29", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('20-29')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('20-29')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('20-29')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
+                            ),
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 30-39", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('30-39')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('30-39')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('30-39')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
+                            ),
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 40-49", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('40-49')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('40-49')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('40-49')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
+                            ),
+                        ),
+                    ],
+                    align="start",
+                    className="mb-3",
                 ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 10-19", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('10-19')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('10-19')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('10-19')}"),
-                                ]
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 50-59", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('50-59')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('50-59')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('50-59')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
                             ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 20-29", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('20-29')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('20-29')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('20-29')}"),
-                                ]
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 60-69", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('60-69')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('60-69')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('60-69')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
                             ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 30-39", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('30-39')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('30-39')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('30-39')}"),
-                                ]
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 70-79", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('70-79')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('70-79')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('70-79')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
                             ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 40-49", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('40-49')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('40-49')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('40-49')}"),
-                                ]
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 80-89", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('80-89')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('80-89')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('80-89')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
                             ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 50-59", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('50-59')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('50-59')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('50-59')}"),
-                                ]
+                        ),
+                        dbc.Col(
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H5("Age 90+", className="card-title"),
+                                        dbc.ListGroup(
+                                            [
+                                                dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('90+')}"),
+                                                dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('90+')}"),
+                                                dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('90+')}"),
+                                            ]
+                                        ),
+                                    ]
+                                )
                             ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 60-69", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('60-69')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('60-69')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('60-69')}"),
-                                ]
-                            ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 70-79", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('70-79')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('70-79')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('70-79')}"),
-                                ]
-                            ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 80-89", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('80-89')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('80-89')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('80-89')}"),
-                                ]
-                            ),
-                        ]
-                    )
-                ),
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Age 90+", className="card-title"),
-                            dbc.ListGroup(
-                                [
-                                    dbc.ListGroupItem(f"Total Cases: {TotalCasesByAgeGroup('90+')}"),
-                                    dbc.ListGroupItem(f"Total ICU: {TotalICUByAgeGroup('90+')}"),
-                                    dbc.ListGroupItem(f"Total Deaths: {TotalDeathsByAgeGroup('90+')}"),
-                                ]
-                            ),
-                        ]
-                    )
+                        ),
+                    ],
+                    align="center",
+                    className="mb-3",
                 ),
             ]
         )
@@ -261,7 +320,7 @@ def render_page_content(pathname):
             active_tab="",
             style = TABS_STYLE,
         )
-        return cards, tabs
+        return row, tabs
     elif pathname == "/page-1":
         return html.P("No content Page 1")
     elif pathname == "/page-2":
