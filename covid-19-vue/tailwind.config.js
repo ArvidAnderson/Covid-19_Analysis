@@ -16,6 +16,7 @@ module.exports = {
       transparent: 'transparent',
       current: 'currentColor',
 
+      navbar: 'FEFEFF',
       theme: '#111827',
       black: colors.black,
       white: colors.white,
