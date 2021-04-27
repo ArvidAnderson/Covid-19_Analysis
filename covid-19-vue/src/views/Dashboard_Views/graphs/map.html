@@ -5,19 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
 </head>
 <body>
     <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
 </body>
 </html>
 <script>
-    var data = geojson("./swedish_counties.geojson")
-    console.log(data)
 
-    var layout = {mapbox: {center: {lon: -74, lat: 43}, zoom: 3.5},
-                width: 600, height:400};
+var data = [{
+  type: "choroplethmapbox", locations: ["NY", "MA", "VT"], z: [-50, -10, -20],
+  geojson: "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/sweden-counties.geojson"
+}];
 
-    var config = {mapboxAccessToken: "your access token"};
+var layout = {mapbox: {center: {lon: -74, lat: 43}, zoom: 3.5},
+              width: 600, height:400};
 
-    Plotly.newPlot('myDiv', data, layout, config);
+var config = {mapboxAccessToken: "your access token"};
+
+Plotly.newPlot('myDiv', data, layout, config);
+
 </script>
