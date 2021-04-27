@@ -14,7 +14,7 @@
             </div>
             <div>
               <h1>
-                Total Cases:
+                Total Cases: {{totalcases}}
               </h1>
               <h1>
                 Total ICU:
@@ -183,11 +183,23 @@
   </div>
 </template>
 <script>
-
-export default ({
+import { ref } from 'vue'
+export default {
   setup() {
-    
-  },
-})
+    const totalcases = ref(null)
+    const FetchData = async (agespan) => {
+      const response = await fetch(`http://localhost:3000/age/${agespan}`)
+      const data = await response.json()
+      totalcases.value = data
+    }
+
+    FetchData('0-9')
+    return {
+      totalcases,
+      FetchData
+    }
+
+  }
+}
 </script>
 
