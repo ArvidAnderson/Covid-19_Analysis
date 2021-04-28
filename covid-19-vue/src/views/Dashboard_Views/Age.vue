@@ -14,13 +14,13 @@
             </div>
             <div>
               <h1>
-                Total Cases: {{totalcases}}
+                Total Cases: {{ age09cases }}
               </h1>
               <h1>
-                Total ICU:
+                Total ICU: {{ age09icu }}
               </h1>
               <h1>
-                Total Deaths:
+                Total Deaths: {{ age09deaths }}
               </h1>
             </div>
           </div>
@@ -31,13 +31,13 @@
             </div>
             <div>
               <h1>
-                Total Cases:
+                Total Cases: {{ age1019cases }}
               </h1>
               <h1>
-                Total ICU:
+                Total ICU: {{ age1019icu }}
               </h1>
               <h1>
-                Total Deaths:
+                Total Deaths: {{ age1019deaths }}
               </h1>
             </div>
           </div>
@@ -48,7 +48,7 @@
             </div>
             <div>
               <h1>
-                Total Cases:
+                Total Cases: {{ age2029.icu }}
               </h1>
               <h1>
                 Total ICU:
@@ -183,20 +183,46 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue'
+import { ref, reactive, toRefs } from 'vue'
 export default {
   setup() {
-    const totalcases = ref(null)
-    const FetchData = async (agespan) => {
-      const response = await fetch(`http://localhost:3000/age/${agespan}`)
+    //Age 0-9
+    const age09cases = ref(null)
+    const age09icu = ref(null)
+    const age09deaths = ref(null)
+    //Age 10-19
+    const age1019cases = ref(null)
+    const age1019icu = ref(null)
+    const age1019deaths = ref(null)
+    //Age 20-29
+    const age2029 = reactive({
+        cases: null,
+        icu: null,
+        deaths: null
+    })
+    const FetchData = async () => {
+      const response = await fetch(`http://localhost:3000/age/`)
       const data = await response.json()
-      totalcases.value = data
+      age09cases.value = data[0]['Total_Cases']
+      age09icu.value = data[0]['Total_ICU_Admissions']
+      age09deaths.value = data[0]['Total_Deaths']
+      age1019cases.value = data[1]['Total_Cases']
+      age1019icu.value = data[1]['Total_ICU_Admissions']
+      age1019deaths.value = data[1]['Total_Deaths']
+      age2029.cases = data[2]['Total_Cases']
+      age2029.icu = data[2]['Total_ICU_Admissions']
+      age2029.deaths = data[1]['Total_Deaths']
     }
 
-    FetchData('0-9')
+    FetchData()
     return {
-      totalcases,
-      FetchData
+      ...toRefs(age2029),
+      age09cases,
+      age09icu,
+      age09deaths,
+      age1019cases,
+      age1019icu,
+      age1019deaths
     }
 
   }
